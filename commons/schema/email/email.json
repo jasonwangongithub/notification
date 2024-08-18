@@ -1,0 +1,83 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "email",
+	"title": "Notification Email",
+	"description": "Schema in Email",
+	"type": "object",
+	"additionalProperties": false,
+	"required": [
+		"notificationId",
+		"emailData",
+		"statusData",
+		"auditData"
+	],
+	"properties": {
+		"notificationId": {
+			"type": "string",
+			"description": "notification Id"
+		},
+		"expiryTs": {
+			"type": "string",
+			"description": "offset datetime format"
+		},
+		"emailData": {
+			"type": "object",
+			"$ref": "#/definitions/EmailData"
+		},
+		"statusData": {
+			"type": "object",
+			"$ref": "../commons.json#/definitions/AditData"
+		}
+	},
+	"definitions": {
+		"EmailData": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": [
+				"from",
+				"to",
+				"subject",
+				"content",
+				"contentType",
+				"encoding"
+			],
+			"properties": {
+				"from": {
+					"type": "string"
+				},
+				"to": {
+					"type": "string"
+				},
+				"subject": {
+					"type": "string"
+				},
+				"content": {
+					"type": "string"
+				},
+				"contentType": {
+					"type": "string"
+				},
+				"encoding": {
+					"type": "string"
+				},
+				"attachments": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"fileName": {
+								"type": "string"
+							},
+							"fileType": {
+								"type": "string"
+							},
+							"fileContent": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

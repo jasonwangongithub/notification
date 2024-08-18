@@ -1,0 +1,11 @@
+{
+    "notificationId": "aa-123",
+    "emailData": {
+        "from": "from@test.com",
+		"to": "to@test.com",
+		"subject": "test",
+		"content": "test content",
+		"contentType": "text/html",
+		"encoding": "UTF-8"
+    }
+}

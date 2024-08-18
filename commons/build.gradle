@@ -1,0 +1,80 @@
+plugins {
+	id 'java'
+	id 'jacoco'
+	id 'org.jsonschema2pojo' version '1.2.1'
+	id 'org.springframework.boot' version '3.3.2'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.jasonmwang.notification'
+description = 'notification-commons'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+compileJava.options.encoding = 'UTF-8'
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "2023.0.3")
+}
+
+bootJar {
+	enabled = false
+}
+
+jar {
+	enabled = true
+	archiveClassifier = ''
+}
+
+configurations {
+	complieOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'com.fasterxml.uuid:java-uuid-generator:5.1.0'
+	
+	implementation group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.2'
+	implementation "com.fasterxml.jackson.core:jackson-databind" 
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.15.0'
+	implementation group: 'commons-io', name: 'commons-io', version: '2.16.1'
+	
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+jsonSchema2Pojo {
+  source = files("${projectDir}/schema")
+  targetDirectory = file("${buildDir}/generate-sources/jsonschema2pojo")
+  targetPackage = 'com.jasonmwang.notification.model'
+  annotationStyle = 'jackson'
+  includeJsr303Annotations = false
+  initializeCollections = false
+  includeAdditionalProperties = false
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+defaultTasks 'build'
